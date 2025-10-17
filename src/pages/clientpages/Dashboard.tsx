@@ -9,12 +9,14 @@ import {
   UploadCloud,
   ChevronDown,
   Plus,
+  ArrowLeft,
 } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { Header } from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const recentTranscripts = [
   { id: 1, name: "Assignment Preview", duration: "120mb · 35min", status: "Pending", date: "Jun 12, 2024" },
@@ -44,6 +46,20 @@ export default function Dashboard() {
   const [newFolderName, setNewFolderName] = useState("");
   const [folders, setFolders] = useState(["Work", "Personal", "Original", "Music"]);
 
+  const navigate = useNavigate();
+
+const handleChangeRole = () => {
+  localStorage.removeItem("userRole");
+
+  // 👇 If you want to fully trigger re-render in App
+  window.location.reload(); // easiest way to force the app to reset
+
+  // OR cleaner way (if you pass setRole as prop)
+  // setRole(null);
+  // navigate("/", { replace: true });
+};
+
+
   const openModal = (modal: "upload" | "createFolder" | null) => {
     setIsModalOpen(modal === "upload");
     setIsFolderDropdownOpen(false);
@@ -68,6 +84,16 @@ export default function Dashboard() {
     <div className="flex min-h-screen flex-col bg-[#FAFBFC]">
       <Header />
 
+      {/* Change Role Button */}
+      <div className="flex justify-end px-6 pt-4">
+        <Button
+          onClick={handleChangeRole}
+          className="bg-[#007BFF] hover:bg-[#0066D1] text-white text-xs font-medium px-4 py-1.5 rounded-md flex items-center gap-1"
+        >
+          <ArrowLeft size={14} /> Change Role
+        </Button>
+      </div>
+
       <main className="flex-1 p-6 pt-4 space-y-5">
         {/* Remaining Minutes */}
         <Card className="border-none shadow-sm bg-gradient-to-r from-[#eaf3ff] via-[#f7f7ff] to-[#fff4ec]">
@@ -89,7 +115,7 @@ export default function Dashboard() {
           <StatCard title="Active Subscription" value="$35/mo" icon={DollarSign} iconColor="bg-orange-50 text-orange-500" />
         </div>
 
-        {/* Upload Box (Minimized Height) */}
+        {/* Upload Box */}
         <div
           className="border-2 border-dashed border-gray-200 rounded-xl bg-white py-10 flex flex-col items-center justify-center text-center hover:border-blue-300 transition cursor-pointer shadow-sm"
           onClick={() => openModal("upload")}
@@ -102,7 +128,7 @@ export default function Dashboard() {
           </Button>
         </div>
 
-        {/* Recent Transcripts (Compact Version) */}
+        {/* Recent Transcripts */}
         <Card className="border-none shadow-sm bg-white">
           <CardHeader className="flex flex-row items-center justify-between pb-1">
             <CardTitle className="text-sm font-semibold text-gray-800">Recent Transcripts</CardTitle>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   FileAudio,
@@ -6,6 +6,9 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Users,
+  CreditCard,
+  MessageSquareText,
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -13,13 +16,42 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [role, setRole] = useState("client"); // default role (client)
   const navigate = useNavigate();
 
-  const navigation = [
+  // ✅ Load role from localStorage
+  useEffect(() => {
+    const storedRole = localStorage.getItem("userRole");
+    if (storedRole) setRole(storedRole);
+  }, []);
+
+  // ✅ Define different menus based on role
+  const clientNavigation = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
     { name: "Audio Files", href: "/audio-files", icon: FileAudio },
     { name: "Templates", href: "/templates", icon: FileText },
   ];
+
+  const adminNavigation = [
+    { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { name: "Reviewer Management", href: "/reviewermanagement", icon: Users },
+    { name: "Audio Management", href: "/assignedaudios", icon: FileAudio },
+    { name: "Payments", href: "/payments", icon: CreditCard },
+  ];
+
+  const reviewerNavigation = [
+    { name: "Dashboard", href: "/reviewer", icon: LayoutDashboard },
+    { name: "Audio Management", href: "/myaudios", icon: FileAudio },
+    { name: "Feedbacks", href: "/feedbacks", icon: MessageSquareText },
+  ];
+
+  // ✅ Choose the correct navigation list
+  const navigation =
+    role === "admin"
+      ? adminNavigation
+      : role === "reviewer"
+      ? reviewerNavigation
+      : clientNavigation;
 
   return (
     <aside
@@ -28,28 +60,22 @@ export const Sidebar = () => {
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between h-[64px] px-4 border-b border-gray-100">
-        {!collapsed && (
-          <div className="flex items-center gap-2">
-            <img
-              src="/logo.svg"
-              alt="TranScribe Logo"
-              className="h-6 w-auto"
-              onError={(e) => {
-                e.currentTarget.src =
-                  "https://dummyimage.com/40x40/ebf5ff/1e40af.png&text=T";
-              }}
-            />
-            <span className="text-[15px] font-semibold text-gray-800">
-              TranScribe
-            </span>
-          </div>
-        )}
+      <div className="relative flex items-center justify-center h-[80px] border-b border-gray-100">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          className="h-12 w-auto object-contain"
+          onError={(e) => {
+            e.currentTarget.src =
+              "https://dummyimage.com/80x80/ebf5ff/1e40af.png&text=L";
+          }}
+        />
+
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setCollapsed(!collapsed)}
-          className="text-gray-600 hover:text-gray-800"
+          className="absolute right-3 text-gray-600 hover:text-gray-800"
         >
           {collapsed ? (
             <ChevronRight className="h-5 w-5" />
@@ -59,7 +85,7 @@ export const Sidebar = () => {
         </Button>
       </div>
 
-      {/* Navigation Links */}
+      {/* Navigation */}
       <nav className="flex-1 mt-3 px-2 space-y-1 overflow-y-auto">
         {navigation.map((item) => (
           <NavLink
@@ -82,7 +108,7 @@ export const Sidebar = () => {
 
       {/* Bottom Section */}
       <div className="mt-auto bg-white border-t border-gray-100">
-        {/* Settings Button */}
+        {/* Settings */}
         <div className="px-3 pt-3">
           <Button
             variant="ghost"
@@ -116,6 +142,9 @@ export const Sidebar = () => {
               </p>
               <p className="text-[11px] text-gray-500 truncate">
                 tahajanjua123@gmail.com
+              </p>
+              <p className="text-[11px] text-gray-500 mt-1 capitalize">
+                Role: {role}
               </p>
             </div>
           )}
