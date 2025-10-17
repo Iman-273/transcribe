@@ -1,6 +1,7 @@
 import React from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { Play, Clock, CheckCircle, DollarSign, Calendar } from "lucide-react";
+import { Play, Clock, CheckCircle, DollarSign, Calendar, RefreshCcw } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface PendingAudio {
   id: number;
@@ -52,6 +53,14 @@ const pendingAudios: PendingAudio[] = [
 ];
 
 export default function ReviewerDashboard() {
+  const navigate = useNavigate();
+
+  const handleChangeRole = () => {
+    localStorage.removeItem("userRole"); // remove saved role
+    navigate("/", { replace: true }); // redirect to role selection
+    window.location.reload(); // reload app so role resets
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex">
       {/* Sidebar */}
@@ -60,14 +69,25 @@ export default function ReviewerDashboard() {
       {/* Main Content */}
       <div className="flex-1 p-6">
         {/* Header */}
-        <div className="mb-6">
-          <p className="text-sm text-gray-500">Wednesday, May 14</p>
-          <h1 className="text-2xl font-semibold mt-1">Good Evening, Alex</h1>
-          <p className="text-gray-500 text-sm mt-1 max-w-xl">
-            Review assigned audios, refine transcriptions, and deliver
-            high-quality results efficiently.
-          </p>
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <p className="text-sm text-gray-500">Wednesday, May 14</p>
+            <h1 className="text-2xl font-semibold mt-1">Good Evening, Alex</h1>
+            <p className="text-gray-500 text-sm mt-1 max-w-xl">
+              Review assigned audios, refine transcriptions, and deliver
+              high-quality results efficiently.
+            </p>
+          </div>
+
+          {/* Change Role Button */}
+          <button
+            onClick={handleChangeRole}
+            className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-xl hover:bg-gray-700 transition"
+          >
+            <RefreshCcw size={16} /> Change Role
+          </button>
         </div>
+
 
         {/* Quick Action Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">

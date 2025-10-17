@@ -56,35 +56,36 @@ const App = () => {
             {/* ADMIN ROUTES */}
             {role === "admin" && (
               <>
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="*" element={<Navigate to="/admin" replace />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
                
-                <Route path="/reviewermanagement" element={<ReviewerManagement/>} />
-                <Route path="/assignedaudios" element={<AssignedAudios/>} />
-                <Route path="/payments" element={<Payments/>} />
+                <Route path="/admin/reviewermanagement" element={<ReviewerManagement/>} />
+                <Route path="/admin/assignedaudios" element={<AssignedAudios/>} />
+                <Route path="/admin/payments" element={<Payments/>} />
               </>
             )}
 
             {/* CLIENT ROUTES */}
             {role === "client" && (
               <Route element={<Layout />}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/audio-files" element={<AllFolders />} />
-                <Route path="/audio-files/folder/:id" element={<FolderDetail />} />
-                <Route path="/audio-files/transcript/:id" element={<TranscriptView />} />
-                <Route path="/templates" element={<Templates />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="/client/dashboard" element={<Dashboard />} />
+                <Route path="/client/settings" element={<Settings />} />
+                <Route path="/client/audio-files" element={<AllFolders />} />
+                <Route path="/client/audio-files/folder/:id" element={<FolderDetail />} />
+                <Route path="/client/audio-files/transcript/:id" element={<TranscriptView />} />
+                <Route path="/client/templates" element={<Templates />} />
+                <Route path="/client/settings" element={<Settings/>} />
+                <Route path="*" element={<Navigate to="/client/dashboard" replace />} />
               </Route>
             )}
 
             {/* DEFAULT FALLBACK */}
             {role === "reviewer" && (
               <>
-                <Route path="/reviewerdashboard" element={<ReviewerDashboard/>} />
-                <Route path="*" element={<Navigate to="/reviewerdashboard" replace />} />
-                 <Route path="/myaudios" element={<MyAudios/>} />
-                 <Route path="/feedbacks" element={<AllFeedbacks/>} />
+                <Route path="/reviewer/dashboard" element={<ReviewerDashboard/>} />
+                <Route path="*" element={<Navigate to="/reviewer/dashboard" replace />} />
+                 <Route path="/reviewer/myaudios" element={<MyAudios/>} />
+                 <Route path="/reviewer/feedbacks" element={<AllFeedbacks/>} />
                  
                
               </>

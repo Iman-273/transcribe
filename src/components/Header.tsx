@@ -14,8 +14,18 @@ export const Header: React.FC<HeaderProps> = ({ breadcrumb, showBack }) => {
 
   return (
     <header className="flex items-center justify-between h-16 bg-white border-b border-gray-100 px-6 sticky top-0 z-40">
-      {/* Left Section: Breadcrumb / Back Button */}
-      <div className="flex items-center gap-3 flex-1">
+      {/* ✅ Left Section: Search + Breadcrumb / Back */}
+      <div className="flex items-center gap-4 flex-1">
+        {/* Search bar moved here */}
+        <div className="relative w-[250px]">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Input
+            type="search"
+            placeholder="Search"
+            className="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-9 text-sm text-gray-700 focus-visible:ring-0 focus-visible:border-gray-300"
+          />
+        </div>
+
         {showBack && (
           <Button
             variant="ghost"
@@ -34,19 +44,7 @@ export const Header: React.FC<HeaderProps> = ({ breadcrumb, showBack }) => {
         )}
       </div>
 
-      {/* Middle Section: Search */}
-      <div className="hidden sm:flex items-center gap-3 flex-1 max-w-md mx-auto">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-          <Input
-            type="search"
-            placeholder="Search"
-            className="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-9 text-sm text-gray-700 focus-visible:ring-0 focus-visible:border-gray-300"
-          />
-        </div>
-      </div>
-
-      {/* Right Section: Notification + Avatar */}
+      {/* ✅ Right Section: Notification + Avatar */}
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"

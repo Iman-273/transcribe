@@ -10,6 +10,7 @@ import {
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Header } from "@/components/Header";
 
 export default function ReviewerManagement() {
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
@@ -67,108 +68,113 @@ export default function ReviewerManagement() {
       <Sidebar />
 
       {/* ✅ Main Content */}
-      <div className="flex-1 p-6">
-        {/* Header */}
-        <div className="flex justify-between items-start mb-6">
-          <div>
-            <h1 className="text-2xl font-semibold mt-1">Reviewer Management</h1>
-            <p className="text-gray-500 text-sm mt-1">
-              Manage and invite reviewers, view their profiles, and track audio
-              assignments efficiently.
-            </p>
-          </div>
+      <div className="flex-1 flex flex-col">
+        {/* ✅ Fixed Header */}
+        <Header />
 
-          <div className="flex gap-2">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Filter size={16} /> Filter
-            </Button>
-            <Button variant="outline" className="flex items-center gap-2">
-              <ArrowUpDown size={16} /> Sort
-            </Button>
-            <Button
-              onClick={() => setIsInviteModalOpen(true)}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              <Users size={16} /> Invite Reviewer
-            </Button>
-          </div>
-        </div>
-
-        {/* Reviewer Table or Empty State */}
-        {reviewers.length === 0 ? (
-          <Card className="flex items-center justify-center h-[70vh] border border-gray-200 shadow-sm">
-            <CardContent className="flex flex-col items-center justify-center text-gray-500">
-              <AlertCircle
-                size={64}
-                strokeWidth={1.5}
-                className="text-gray-300 mb-3"
-              />
-              <p className="text-sm font-medium">No reviewers to show!</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
-            <div className="flex justify-between items-center p-4 border-b">
-              <h3 className="font-semibold">Reviewer List</h3>
-              <span className="text-sm text-gray-500">
-                Total: {reviewers.length}
-              </span>
+        {/* ✅ Page Content */}
+        <div className="p-6"> {/* mt-20 ensures space below fixed header */}
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h1 className="text-2xl font-semibold mt-1">Reviewer Management</h1>
+              <p className="text-gray-500 text-sm mt-1">
+                Manage and invite reviewers, view their profiles, and track audio
+                assignments efficiently.
+              </p>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm text-left border-collapse">
-                <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
-                  <tr>
-                    <th className="p-4">#</th>
-                    <th className="p-4">Full Name</th>
-                    <th className="p-4">Email</th>
-                    <th className="p-4">Assigned Audios</th>
-                    <th className="p-4">Completed Audios</th>
-                    <th className="p-4">Last Active</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {reviewers.map((rev, index) => (
-                    <tr
-                      key={rev.id}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="p-4">{index + 1}</td>
-                      <td className="p-4">{rev.fullName}</td>
-                      <td className="p-4">{rev.email}</td>
-                      <td className="p-4">{rev.assignedAudios}</td>
-                      <td className="p-4">{rev.completedAudios}</td>
-                      <td className="p-4">{rev.lastActive}</td>
-                      <td className="p-4">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            rev.status === "Active"
-                              ? "bg-green-100 text-green-700"
-                              : rev.status === "Paused"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {rev.status}
-                        </span>
-                      </td>
-                      <td className="p-4 text-right">
-                        <button
-                          onClick={() => openProfileModal(rev)}
-                          className="p-2 hover:bg-gray-100 rounded-full"
-                        >
-                          <MoreVertical size={16} />
-                        </button>
-                      </td>
+            <div className="flex gap-2">
+              <Button variant="outline" className="flex items-center gap-2">
+                <Filter size={16} /> Filter
+              </Button>
+              <Button variant="outline" className="flex items-center gap-2">
+                <ArrowUpDown size={16} /> Sort
+              </Button>
+              <Button
+                onClick={() => setIsInviteModalOpen(true)}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <Users size={16} /> Invite Reviewer
+              </Button>
+            </div>
+          </div>
+
+          {/* ✅ Reviewer Table or Empty State */}
+          {reviewers.length === 0 ? (
+            <Card className="flex items-center justify-center h-[70vh] border border-gray-200 shadow-sm">
+              <CardContent className="flex flex-col items-center justify-center text-gray-500">
+                <AlertCircle
+                  size={64}
+                  strokeWidth={1.5}
+                  className="text-gray-300 mb-3"
+                />
+                <p className="text-sm font-medium">No reviewers to show!</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+              <div className="flex justify-between items-center p-4 border-b">
+                <h3 className="font-semibold">Reviewer List</h3>
+                <span className="text-sm text-gray-500">
+                  Total: {reviewers.length}
+                </span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-sm text-left border-collapse">
+                  <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                      <th className="p-4">#</th>
+                      <th className="p-4">Full Name</th>
+                      <th className="p-4">Email</th>
+                      <th className="p-4">Assigned Audios</th>
+                      <th className="p-4">Completed Audios</th>
+                      <th className="p-4">Last Active</th>
+                      <th className="p-4">Status</th>
+                      <th className="p-4 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y">
+                    {reviewers.map((rev, index) => (
+                      <tr
+                        key={rev.id}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
+                        <td className="p-4">{index + 1}</td>
+                        <td className="p-4">{rev.fullName}</td>
+                        <td className="p-4">{rev.email}</td>
+                        <td className="p-4">{rev.assignedAudios}</td>
+                        <td className="p-4">{rev.completedAudios}</td>
+                        <td className="p-4">{rev.lastActive}</td>
+                        <td className="p-4">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              rev.status === "Active"
+                                ? "bg-green-100 text-green-700"
+                                : rev.status === "Paused"
+                                ? "bg-yellow-100 text-yellow-700"
+                                : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {rev.status}
+                          </span>
+                        </td>
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => openProfileModal(rev)}
+                            className="p-2 hover:bg-gray-100 rounded-full"
+                          >
+                            <MoreVertical size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* ✅ Invite Modal */}
