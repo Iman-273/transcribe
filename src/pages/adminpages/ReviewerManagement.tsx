@@ -18,7 +18,6 @@ export default function ReviewerManagement() {
   const [selectedReviewer, setSelectedReviewer] = useState(null);
   const [reviewers, setReviewers] = useState([]);
 
-  // ✅ Invite Reviewer
   const handleInvite = (e) => {
     e.preventDefault();
     const name = e.target.name.value.trim();
@@ -63,27 +62,29 @@ export default function ReviewerManagement() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 flex">
+    <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col md:flex-row">
       {/* ✅ Sidebar */}
       <Sidebar />
 
-      {/* ✅ Main Content */}
+      {/* ✅ Main Section */}
       <div className="flex-1 flex flex-col">
-        {/* ✅ Fixed Header */}
         <Header />
 
-        {/* ✅ Page Content */}
-        <div className="p-6"> {/* mt-20 ensures space below fixed header */}
-          <div className="flex justify-between items-start mb-6">
+        {/* ✅ Content Wrapper */}
+        <div className="p-4 sm:p-6">
+          {/* ✅ Header Section */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-2xl font-semibold mt-1">Reviewer Management</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold">
+                Reviewer Management
+              </h1>
               <p className="text-gray-500 text-sm mt-1">
                 Manage and invite reviewers, view their profiles, and track audio
                 assignments efficiently.
               </p>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-end gap-2">
               <Button variant="outline" className="flex items-center gap-2">
                 <Filter size={16} /> Filter
               </Button>
@@ -101,8 +102,8 @@ export default function ReviewerManagement() {
 
           {/* ✅ Reviewer Table or Empty State */}
           {reviewers.length === 0 ? (
-            <Card className="flex items-center justify-center h-[70vh] border border-gray-200 shadow-sm">
-              <CardContent className="flex flex-col items-center justify-center text-gray-500">
+            <Card className="flex items-center justify-center h-[60vh] border border-gray-200 shadow-sm">
+              <CardContent className="flex flex-col items-center justify-center text-gray-500 text-center">
                 <AlertCircle
                   size={64}
                   strokeWidth={1.5}
@@ -112,41 +113,46 @@ export default function ReviewerManagement() {
               </CardContent>
             </Card>
           ) : (
-            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
-              <div className="flex justify-between items-center p-4 border-b">
-                <h3 className="font-semibold">Reviewer List</h3>
-                <span className="text-sm text-gray-500">
+            <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 border-b gap-2">
+                <h3 className="font-semibold text-sm sm:text-base">Reviewer List</h3>
+                <span className="text-xs sm:text-sm text-gray-500">
                   Total: {reviewers.length}
                 </span>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="min-w-full text-sm text-left border-collapse">
-                  <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+                <table className="min-w-full text-xs sm:text-sm text-left border-collapse">
+                  <thead className="bg-gray-50 text-gray-600 uppercase">
                     <tr>
-                      <th className="p-4">#</th>
-                      <th className="p-4">Full Name</th>
-                      <th className="p-4">Email</th>
-                      <th className="p-4">Assigned Audios</th>
-                      <th className="p-4">Completed Audios</th>
-                      <th className="p-4">Last Active</th>
-                      <th className="p-4">Status</th>
-                      <th className="p-4 text-right">Actions</th>
+                      <th className="p-3 sm:p-4">#</th>
+                      <th className="p-3 sm:p-4">Full Name</th>
+                      <th className="p-3 sm:p-4">Email</th>
+                      <th className="p-3 sm:p-4">Assigned Audios</th>
+                      <th className="p-3 sm:p-4">Completed Audios</th>
+                      <th className="p-3 sm:p-4">Last Active</th>
+                      <th className="p-3 sm:p-4">Status</th>
+                      <th className="p-3 sm:p-4 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y">
                     {reviewers.map((rev, index) => (
-                      <tr
-                        key={rev.id}
-                        className="hover:bg-gray-50 transition-colors"
-                      >
-                        <td className="p-4">{index + 1}</td>
-                        <td className="p-4">{rev.fullName}</td>
-                        <td className="p-4">{rev.email}</td>
-                        <td className="p-4">{rev.assignedAudios}</td>
-                        <td className="p-4">{rev.completedAudios}</td>
-                        <td className="p-4">{rev.lastActive}</td>
-                        <td className="p-4">
+                      <tr key={rev.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="p-3 sm:p-4">{index + 1}</td>
+                        <td className="p-3 sm:p-4 whitespace-nowrap">
+                          {rev.fullName}
+                        </td>
+                        <td className="p-3 sm:p-4 whitespace-nowrap">
+                          {rev.email}
+                        </td>
+                        <td className="p-3 sm:p-4 text-center">
+                          {rev.assignedAudios}
+                        </td>
+                        <td className="p-3 sm:p-4 text-center">
+                          {rev.completedAudios}
+                        </td>
+                        <td className="p-3 sm:p-4">{rev.lastActive}</td>
+                        <td className="p-3 sm:p-4">
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-semibold ${
                               rev.status === "Active"
@@ -159,7 +165,7 @@ export default function ReviewerManagement() {
                             {rev.status}
                           </span>
                         </td>
-                        <td className="p-4 text-right">
+                        <td className="p-3 sm:p-4 text-right">
                           <button
                             onClick={() => openProfileModal(rev)}
                             className="p-2 hover:bg-gray-100 rounded-full"
@@ -179,8 +185,8 @@ export default function ReviewerManagement() {
 
       {/* ✅ Invite Modal */}
       {isInviteModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-[9999] bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-lg w-[90%] max-w-md p-6 relative">
+        <div className="fixed inset-0 flex items-center justify-center z-[9999] bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
             <button
               onClick={() => setIsInviteModalOpen(false)}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
@@ -188,7 +194,7 @@ export default function ReviewerManagement() {
               <X size={18} />
             </button>
 
-            <h2 className="text-lg font-semibold text-gray-800 mb-5">
+            <h2 className="text-lg font-semibold text-gray-800 mb-5 text-center sm:text-left">
               Invite New Reviewer
             </h2>
 
@@ -229,14 +235,18 @@ export default function ReviewerManagement() {
                 </select>
               </div>
 
-              <div className="flex justify-end gap-2 pt-4">
+              <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
                 <Button
                   variant="outline"
                   onClick={() => setIsInviteModalOpen(false)}
+                  className="w-full sm:w-auto"
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+                <Button
+                  type="submit"
+                  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
+                >
                   Invite
                 </Button>
               </div>
@@ -247,8 +257,8 @@ export default function ReviewerManagement() {
 
       {/* ✅ Profile Modal */}
       {isProfileModalOpen && selectedReviewer && (
-        <div className="fixed inset-0 flex items-center justify-center z-[9999] bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-lg w-[90%] max-w-lg p-6 relative">
+        <div className="fixed inset-0 flex items-center justify-center z-[9999] bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 relative">
             <button
               onClick={() => setIsProfileModalOpen(false)}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
@@ -256,18 +266,20 @@ export default function ReviewerManagement() {
               <X size={18} />
             </button>
 
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center sm:text-left">
               Reviewer Profile
             </h2>
 
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               <div className="border rounded-lg p-3">
                 <p className="text-gray-500 text-xs">Full Name</p>
                 <p className="font-medium">{selectedReviewer.fullName}</p>
               </div>
               <div className="border rounded-lg p-3">
                 <p className="text-gray-500 text-xs">Email</p>
-                <p className="font-medium">{selectedReviewer.email}</p>
+                <p className="font-medium break-all">
+                  {selectedReviewer.email}
+                </p>
               </div>
               <div className="border rounded-lg p-3">
                 <p className="text-gray-500 text-xs">Status</p>
@@ -297,16 +309,17 @@ export default function ReviewerManagement() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-5">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 pt-5">
               <Button
                 variant="outline"
                 onClick={() => setIsProfileModalOpen(false)}
+                className="w-full sm:w-auto"
               >
                 Close
               </Button>
               <Button
                 onClick={handleDelete}
-                className="bg-red-500 hover:bg-red-600 text-white"
+                className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
               >
                 Delete
               </Button>

@@ -11,7 +11,6 @@ import {
   MessageSquareText,
   Menu,
   X,
-  SettingsIcon,
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -28,11 +27,11 @@ export const Sidebar = () => {
     if (storedRole) setRole(storedRole);
   }, []);
 
+  // ✅ Removed duplicate Settings from client navigation
   const clientNavigation = [
     { name: "Dashboard", href: "/client/dashboard", icon: LayoutDashboard },
     { name: "Audio Files", href: "/client/audio-files", icon: FileAudio },
     { name: "Templates", href: "/client/templates", icon: FileText },
-    { name: "Settings", href: "/client/settings", icon: SettingsIcon },
   ];
 
   const adminNavigation = [
@@ -57,23 +56,22 @@ export const Sidebar = () => {
 
   return (
     <>
-      {/* ✅ Mobile Toggle Button */}
-      <div className="md:hidden fixed top-4 left-4 z-50">
-        <Button
-          variant="ghost"
-          size="icon"
+      {/* ✅ Hamburger icon - always above header */}
+      <div className="md:hidden fixed top-2 left-3 z-[9999]">
+        <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="text-gray-700"
+          className="p-2.5 rounded-md bg-white text-gray-700"
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+          {mobileOpen ? <X className="h-5.5 w-5.5" /> : <Menu className="h-5.5 w-5.5" />}
+        </button>
       </div>
 
-      {/* ✅ Sidebar */}
+      {/* ✅ Sidebar - appears above header */}
       <aside
-        className={`fixed md:relative flex flex-col min-h-screen bg-white border-r border-gray-200 transition-all duration-300 z-40
-          ${collapsed ? "w-[75px]" : "w-[240px]"}
+        className={`fixed md:relative flex flex-col min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out 
+          ${collapsed ? "w-[75px]" : "w-[240px]"} 
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          z-[9998]
         `}
       >
         {/* Header */}
@@ -88,7 +86,6 @@ export const Sidebar = () => {
             }}
           />
 
-          {/* Collapse Button (hidden on mobile) */}
           <Button
             variant="ghost"
             size="icon"
@@ -110,7 +107,7 @@ export const Sidebar = () => {
               key={item.name}
               to={item.href}
               end={item.href === "/"}
-              onClick={() => setMobileOpen(false)} // ✅ Close menu on mobile click
+              onClick={() => setMobileOpen(false)} // ✅ Close sidebar after navigation
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-md px-3 py-[8px] text-[14px] font-medium transition-colors ${
                   isActive
@@ -127,7 +124,7 @@ export const Sidebar = () => {
 
         {/* Bottom Section */}
         <div className="mt-auto bg-white border-t border-gray-100">
-          {/* Settings */}
+          {/* ✅ Single Settings button */}
           <div className="px-3 pt-3">
             <Button
               variant="ghost"
@@ -146,7 +143,6 @@ export const Sidebar = () => {
             </Button>
           </div>
 
-          {/* User Profile */}
           <div
             className={`px-3 pb-4 mt-2 flex items-center gap-3 transition rounded-lg ${
               collapsed ? "justify-center" : "hover:bg-gray-50"
@@ -177,7 +173,7 @@ export const Sidebar = () => {
       {/* ✅ Overlay for mobile */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-30 md:hidden"
+          className="fixed inset-0 bg-black/40 z-[9997] md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}

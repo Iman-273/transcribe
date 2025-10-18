@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 
-// ✅ Dummy Data for Transactions
 const paymentsData = [
   { id: "A56we", name: "Kate Morrison", amount: "$4,456", method: "Card Payment", date: "23-09-2024", status: "Completed" },
   { id: "12ade", name: "Ali Baba", amount: "$4,456", method: "Card Payment", date: "23-09-2024", status: "Completed" },
@@ -18,7 +17,6 @@ const paymentsData = [
   { id: "ghj54", name: "Witness Min", amount: "$4,456", method: "Card Payment", date: "23-09-2024", status: "Completed" },
 ];
 
-// ✅ Derived Data Sets
 const failedPaymentsData = paymentsData.map((p) => ({ ...p, status: "Failed" }));
 const refundsData = paymentsData.map((p) => ({ ...p, status: "Refund Requested" }));
 
@@ -34,44 +32,44 @@ export default function Payments() {
       : paymentsData;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 flex">
+    <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col md:flex-row">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Section */}
       <div className="flex-1 flex flex-col">
-        {/* ✅ Fixed Header */}
+        {/* Header */}
         <div className="sticky top-0 z-50 bg-white shadow-sm border-b">
           <Header />
         </div>
 
-        {/* ✅ Page Content */}
-        <div className="p-6">
+        {/* Page Content */}
+        <div className="p-4 sm:p-6 lg:p-8">
           {/* Header Section */}
-          <div className="flex justify-between items-start mb-6 flex-wrap gap-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <div>
-              <h1 className="text-2xl font-semibold text-gray-900">Payments Overview</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Payments Overview</h1>
               <p className="text-gray-500 text-sm mt-1">
                 Review all transactions, refunds, and failed payments in one place.
               </p>
             </div>
-            <div className="flex gap-2">
-              <Button variant="outline" className="flex items-center gap-2">
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" className="flex items-center gap-2 text-sm sm:text-base">
                 <Filter size={16} /> Filter
               </Button>
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 text-sm sm:text-base">
                 <ArrowUpDown size={16} /> Sort
               </Button>
             </div>
           </div>
 
           {/* Tabs */}
-          <div className="flex border-b mb-6 overflow-x-auto">
+          <div className="flex border-b mb-6 overflow-x-auto no-scrollbar">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition ${
+                className={`px-4 py-2 text-sm sm:text-base font-medium whitespace-nowrap transition ${
                   activeTab === tab
                     ? "border-b-2 border-blue-600 text-blue-600"
                     : "text-gray-500 hover:text-gray-700"
@@ -82,102 +80,142 @@ export default function Payments() {
             ))}
           </div>
 
-          {/* Payments Table */}
-          <Card className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-            <CardContent className="p-0 overflow-x-auto">
-              <table className="min-w-full text-sm text-left border-collapse">
-                <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
-                  <tr>
-                    <th className="p-4">
-                      <input type="checkbox" />
-                    </th>
-                    <th className="p-4">Transaction ID</th>
-                    <th className="p-4">Full Name</th>
-                    <th className="p-4">Amount</th>
-                    <th className="p-4">Method</th>
-                    <th className="p-4">Date</th>
-                    {activeTab === "Refunds" ? (
-                      <th className="p-4 text-center">Actions</th>
-                    ) : (
-                      <th className="p-4 text-center">Status</th>
-                    )}
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y">
-                  {currentData.map((payment) => (
-                    <tr key={payment.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="p-4">
+          {/* Desktop Table */}
+          <div className="hidden md:block">
+            <Card className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+              <CardContent className="p-0 overflow-x-auto">
+                <table className="min-w-full text-sm text-left border-collapse">
+                  <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                      <th className="p-4">
                         <input type="checkbox" />
-                      </td>
-                      <td className="p-4 font-medium text-gray-800">{payment.id}</td>
-                      <td className="p-4">{payment.name}</td>
-                      <td className="p-4">{payment.amount}</td>
-                      <td className="p-4">{payment.method}</td>
-                      <td className="p-4">{payment.date}</td>
-
-                      {activeTab === "Refunds" ? (
-                        <td className="p-4 text-center">
-                          <div className="flex justify-center gap-2">
-                            <Button
-                              variant="outline"
-                              className="text-red-600 border-red-300 hover:bg-red-50"
-                            >
-                              ✖ Reject
-                            </Button>
-                            <Button
-                              variant="outline"
-                              className="text-green-600 border-green-300 hover:bg-green-50"
-                            >
-                              ✔ Approve
-                            </Button>
-                          </div>
-                        </td>
-                      ) : (
-                        <td className="p-4 text-center">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                              payment.status === "Completed"
-                                ? "bg-green-100 text-green-700"
-                                : payment.status === "Pending"
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-red-100 text-red-700"
-                            }`}
-                          >
-                            {payment.status}
-                          </span>
-                        </td>
-                      )}
+                      </th>
+                      <th className="p-4">Transaction ID</th>
+                      <th className="p-4">Full Name</th>
+                      <th className="p-4">Amount</th>
+                      <th className="p-4">Method</th>
+                      <th className="p-4">Date</th>
+                      <th className="p-4 text-center">
+                        {activeTab === "Refunds" ? "Actions" : "Status"}
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {/* Pagination */}
-              <div className="flex justify-between items-center px-4 py-3 border-t bg-gray-50">
-                <Button variant="outline" size="sm">
-                  ← Previous
-                </Button>
-                <div className="flex gap-1 text-sm">
-                  {[1, 2, 3, "...", 8, 9, 10].map((num, i) => (
-                    <button
-                      key={i}
-                      className={`px-3 py-1 rounded transition ${
-                        num === 1
-                          ? "bg-blue-600 text-white"
-                          : "hover:bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      {num}
-                    </button>
-                  ))}
+                  </thead>
+                  <tbody className="divide-y">
+                    {currentData.map((payment) => (
+                      <tr key={payment.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="p-4">
+                          <input type="checkbox" />
+                        </td>
+                        <td className="p-4 font-medium text-gray-800">{payment.id}</td>
+                        <td className="p-4">{payment.name}</td>
+                        <td className="p-4">{payment.amount}</td>
+                        <td className="p-4">{payment.method}</td>
+                        <td className="p-4">{payment.date}</td>
+                        <td className="p-4 text-center">
+                          {activeTab === "Refunds" ? (
+                            <div className="flex justify-center gap-2">
+                              <Button
+                                variant="outline"
+                                className="text-red-600 border-red-300 hover:bg-red-50 text-xs"
+                              >
+                                ✖ Reject
+                              </Button>
+                              <Button
+                                variant="outline"
+                                className="text-green-600 border-green-300 hover:bg-green-50 text-xs"
+                              >
+                                ✔ Approve
+                              </Button>
+                            </div>
+                          ) : (
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                payment.status === "Completed"
+                                  ? "bg-green-100 text-green-700"
+                                  : payment.status === "Pending"
+                                  ? "bg-yellow-100 text-yellow-700"
+                                  : "bg-red-100 text-red-700"
+                              }`}
+                            >
+                              {payment.status}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {/* Pagination */}
+                <div className="flex justify-between items-center px-4 py-3 border-t bg-gray-50">
+                  <Button variant="outline" size="sm">← Previous</Button>
+                  <div className="flex gap-1 text-sm">
+                    {[1, 2, 3, "...", 8, 9, 10].map((num, i) => (
+                      <button
+                        key={i}
+                        className={`px-3 py-1 rounded transition ${
+                          num === 1
+                            ? "bg-blue-600 text-white"
+                            : "hover:bg-gray-100 text-gray-700"
+                        }`}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                  <Button variant="outline" size="sm">Next →</Button>
                 </div>
-                <Button variant="outline" size="sm">
-                  Next →
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Mobile Card Layout */}
+          <div className="grid grid-cols-1 gap-4 md:hidden">
+            {currentData.map((payment) => (
+              <Card key={payment.id} className="border rounded-xl shadow-sm">
+                <CardContent className="p-4 space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-gray-800">{payment.name}</span>
+                    <span className="font-medium text-blue-600">{payment.amount}</span>
+                  </div>
+                  <p className="text-gray-500 text-xs">ID: {payment.id}</p>
+                  <p className="text-gray-500 text-xs">{payment.method}</p>
+                  <p className="text-gray-500 text-xs">{payment.date}</p>
+                  {activeTab === "Refunds" ? (
+                    <div className="flex justify-end gap-2 pt-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-red-600 border-red-300 hover:bg-red-50 text-xs"
+                      >
+                        ✖ Reject
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-green-600 border-green-300 hover:bg-green-50 text-xs"
+                      >
+                        ✔ Approve
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex justify-end">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                          payment.status === "Completed"
+                            ? "bg-green-100 text-green-700"
+                            : payment.status === "Pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {payment.status}
+                      </span>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>

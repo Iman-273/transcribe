@@ -19,7 +19,7 @@ import AllFolders from "./pages/clientpages/AllFolders";
 import FolderDetail from "./pages/clientpages/FolderDetail";
 import TranscriptView from "./pages/clientpages/TranscriptView";
 import Templates from "./pages/clientpages/Templates";
-import NotFound from "./pages/clientpages/NotFound";
+import NotFound from "./pages/NotFound";
 
 
 // Admin pages

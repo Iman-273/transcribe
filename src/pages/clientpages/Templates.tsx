@@ -36,7 +36,7 @@ const templates = [
 export default function Templates() {
   return (
     <div className="flex min-h-screen flex-col bg-[#FAFBFC]">
-      <Header breadcrumb="Templates" />
+      <Header />
 
       <main className="flex-1 space-y-6 p-6">
         {/* Page Header */}
