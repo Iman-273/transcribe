@@ -16,7 +16,7 @@ import { Header } from "@/components/Header";
 export default function AssignedAudios() {
   const [showManualModal, setShowManualModal] = useState(false);
   const [showAutoModal, setShowAutoModal] = useState(false);
-  const [audios, setAudios] = useState([]);
+  const [audios, setAudios] = useState<any[]>([]);
 
   const loadDummyData = () => {
     setAudios([
@@ -57,24 +57,25 @@ export default function AssignedAudios() {
 
   return (
     <div className="flex min-h-screen bg-[#F9FAFB] text-gray-800">
-      {/* Sidebar */}
+      {/* ✅ Sidebar */}
       <Sidebar />
 
-      {/* Main Section */}
+      {/* ✅ Main Section */}
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Header */}
         <div className="sticky top-0 z-40 bg-[#F9FAFB]">
-          <Header breadcrumb="Assigned Audios" />
+          <Header />
         </div>
+
         {/* ✅ Page Content */}
-        <main className="flex-1 p-4 sm:p-6 mt-2">
-          {/* Header Bar */}
+        <main className="flex-1 p-3 sm:p-6 mt-2">
+          {/* Top Controls */}
           <div className="flex flex-wrap justify-between items-center mb-6 gap-3">
             <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
               Assigned Audios
             </h1>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <button className="flex items-center gap-1.5 px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 transition">
                 <Filter size={16} /> Filter
               </button>
@@ -106,29 +107,29 @@ export default function AssignedAudios() {
             </div>
           </div>
 
-          {/* ✅ Responsive Content */}
+          {/* ✅ Empty State / List */}
           {audios.length === 0 ? (
             <div className="bg-white border border-gray-200 rounded-2xl flex flex-col items-center justify-center h-[60vh] text-gray-500 shadow-sm">
               <FileText size={64} strokeWidth={1.5} className="text-gray-300 mb-3" />
               <p className="text-sm font-medium">No Assigned Audios!</p>
             </div>
           ) : (
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-3 sm:p-4">
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-3 sm:p-5 space-y-3">
               {audios.map((audio) => (
                 <div
                   key={audio.id}
-                  className="flex flex-col sm:flex-row justify-between sm:items-center border border-gray-100 rounded-lg p-4 mb-3 hover:bg-gray-50 transition"
+                  className="flex flex-col sm:flex-row justify-between sm:items-center border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition"
                 >
                   {/* Left */}
-                  <div className="flex items-center gap-4 min-w-[200px] mb-3 sm:mb-0">
+                  <div className="flex items-center gap-4 flex-1 min-w-[200px] mb-3 sm:mb-0">
                     <div className="bg-gray-100 p-3 rounded-full">
-                      <Music size={24} className="text-gray-500" />
+                      <Music size={22} className="text-gray-500" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 text-sm">
+                      <h3 className="font-medium text-gray-900 text-sm sm:text-base">
                         {audio.title}
                       </h3>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500">
                         {audio.size} · {audio.duration} · Assigned to:{" "}
                         <span className="font-medium text-gray-700 inline-flex items-center gap-1">
                           <img
@@ -143,30 +144,30 @@ export default function AssignedAudios() {
                   </div>
 
                   {/* Middle */}
-                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-3 sm:mb-0">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3 sm:mb-0">
                     {audio.status === "Pending" && (
-                      <span className="text-sm font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-md">
+                      <span className="text-xs sm:text-sm font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-md">
                         Pending
                       </span>
                     )}
                     {audio.status === "Completed" && (
-                      <span className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-md">
+                      <span className="text-xs sm:text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-md">
                         Completed
                       </span>
                     )}
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <Calendar size={16} className="mr-1" /> {audio.date}
+                    <div className="flex items-center text-gray-500 text-xs sm:text-sm">
+                      <Calendar size={15} className="mr-1" /> {audio.date}
                     </div>
                   </div>
 
                   {/* Right */}
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-end">
                     {audio.remaining && (
-                      <span className="text-[10px] sm:text-xs font-semibold text-white bg-red-500 px-2 py-1 rounded-md uppercase">
+                      <span className="text-[10px] sm:text-xs font-semibold text-white bg-red-500 px-2 py-1 rounded-md uppercase whitespace-nowrap">
                         {audio.remaining}
                       </span>
                     )}
-                    <button className="flex items-center gap-1 text-xs sm:text-sm font-medium text-gray-700 border border-gray-300 px-3 py-1.5 rounded-md hover:bg-gray-100">
+                    <button className="flex items-center gap-1 text-xs sm:text-sm font-medium text-gray-700 border border-gray-300 px-3 py-1.5 rounded-md hover:bg-gray-100 transition">
                       <Download size={14} /> Transcript
                     </button>
                     <MoreVertical size={18} className="text-gray-500 cursor-pointer" />
@@ -180,8 +181,8 @@ export default function AssignedAudios() {
 
       {/* ✅ Manual Assign Modal */}
       {showManualModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white rounded-xl shadow-lg w-[90%] sm:w-[400px] p-6 relative">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 p-3">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 relative">
             <button
               onClick={() => setShowManualModal(false)}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
@@ -189,7 +190,7 @@ export default function AssignedAudios() {
               <X size={18} />
             </button>
 
-            <h2 className="text-lg font-semibold text-gray-800 mb-5">
+            <h2 className="text-lg font-semibold text-gray-800 mb-5 text-center">
               Assign Manually
             </h2>
 
@@ -232,8 +233,8 @@ export default function AssignedAudios() {
 
       {/* ✅ Auto Assign Modal */}
       {showAutoModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white rounded-xl shadow-lg w-[90%] sm:w-[420px] p-6 sm:p-8 relative text-center">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 p-3">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm sm:max-w-md p-6 sm:p-8 relative text-center">
             <button
               onClick={() => setShowAutoModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -242,13 +243,13 @@ export default function AssignedAudios() {
             </button>
 
             <div className="flex justify-center mb-5">
-              <PlayCircle size={72} strokeWidth={1.5} className="text-[#0066FF]" />
+              <PlayCircle size={64} strokeWidth={1.5} className="text-[#0066FF]" />
             </div>
 
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
               Auto Assign
             </h2>
-            <p className="text-sm text-gray-600 mb-6 px-2">
+            <p className="text-sm text-gray-600 mb-6 px-2 sm:px-4">
               The system will automatically distribute pending audios to
               available reviewers based on workload and expertise.
             </p>

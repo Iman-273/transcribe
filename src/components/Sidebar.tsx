@@ -27,7 +27,7 @@ export const Sidebar = () => {
     if (storedRole) setRole(storedRole);
   }, []);
 
-  // ✅ Removed duplicate Settings from client navigation
+  // ✅ Navigation Menus
   const clientNavigation = [
     { name: "Dashboard", href: "/client/dashboard", icon: LayoutDashboard },
     { name: "Audio Files", href: "/client/audio-files", icon: FileAudio },
@@ -56,36 +56,39 @@ export const Sidebar = () => {
 
   return (
     <>
-      {/* ✅ Hamburger icon - always above header */}
-      <div className="md:hidden fixed top-2 left-3 z-[9999]">
+      {/* ✅ Mobile Toggle Button */}
+      <div className="md:hidden fixed top-3 left-3 z-[10000]">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-2.5 rounded-md bg-white text-gray-700"
+          className="p-2.5 rounded-md bg-white text-gray-700 shadow-md focus:outline-none"
         >
-          {mobileOpen ? <X className="h-5.5 w-5.5" /> : <Menu className="h-5.5 w-5.5" />}
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* ✅ Sidebar - appears above header */}
+      {/* ✅ Sidebar */}
       <aside
-        className={`fixed md:relative flex flex-col min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out 
-          ${collapsed ? "w-[75px]" : "w-[240px]"} 
+        className={`fixed md:relative flex flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
+          ${collapsed ? "w-[75px]" : "w-[240px]"}
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-          z-[9998]
+          z-[9999] h-screen
         `}
       >
-        {/* Header */}
+        {/* Header Section */}
         <div className="relative flex items-center justify-center h-[80px] border-b border-gray-100">
           <img
             src="/logo.png"
             alt="Logo"
-            className="h-12 w-auto object-contain"
+            className={`object-contain transition-all duration-300 ${
+              collapsed ? "h-10 w-10" : "h-12 w-auto"
+            }`}
             onError={(e) => {
               e.currentTarget.src =
                 "https://dummyimage.com/80x80/ebf5ff/1e40af.png&text=L";
             }}
           />
 
+          {/* Collapse Button (Desktop Only) */}
           <Button
             variant="ghost"
             size="icon"
@@ -100,16 +103,16 @@ export const Sidebar = () => {
           </Button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 mt-3 px-2 space-y-1 overflow-y-auto">
+        {/* Navigation Links */}
+        <nav className="flex-1 mt-3 px-2 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200">
           {navigation.map((item) => (
             <NavLink
               key={item.name}
               to={item.href}
               end={item.href === "/"}
-              onClick={() => setMobileOpen(false)} // ✅ Close sidebar after navigation
+              onClick={() => setMobileOpen(false)} // ✅ Close after click
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-md px-3 py-[8px] text-[14px] font-medium transition-colors ${
+                `flex items-center gap-3 rounded-md px-3 py-[9px] text-[14px] font-medium transition-all ${
                   isActive
                     ? "bg-blue-50 text-blue-600"
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
@@ -117,15 +120,15 @@ export const Sidebar = () => {
               }
             >
               <item.icon className="h-[18px] w-[18px]" />
-              {!collapsed && item.name}
+              {!collapsed && <span className="truncate">{item.name}</span>}
             </NavLink>
           ))}
         </nav>
 
-        {/* Bottom Section */}
-        <div className="mt-auto bg-white border-t border-gray-100">
-          {/* ✅ Single Settings button */}
-          <div className="px-3 pt-3">
+        {/* ✅ Bottom User Section */}
+        <div className="mt-auto bg-white border-t border-gray-100 py-3">
+          {/* Settings Button */}
+          <div className="px-3 mb-2">
             <Button
               variant="ghost"
               className={`w-full justify-start gap-3 px-3 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 ${
@@ -137,14 +140,13 @@ export const Sidebar = () => {
               }}
             >
               <Settings className="h-[18px] w-[18px]" />
-              {!collapsed && (
-                <span className="text-[14px] font-medium">Settings</span>
-              )}
+              {!collapsed && <span className="text-[14px] font-medium">Settings</span>}
             </Button>
           </div>
 
+          {/* User Info */}
           <div
-            className={`px-3 pb-4 mt-2 flex items-center gap-3 transition rounded-lg ${
+            className={`px-3 flex items-center gap-3 transition-all duration-200 ${
               collapsed ? "justify-center" : "hover:bg-gray-50"
             }`}
           >
@@ -170,10 +172,10 @@ export const Sidebar = () => {
         </div>
       </aside>
 
-      {/* ✅ Overlay for mobile */}
+      {/* ✅ Overlay for Mobile */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[9997] md:hidden"
+          className="fixed inset-0 bg-black/40 z-[9998] md:hidden transition-opacity"
           onClick={() => setMobileOpen(false)}
         />
       )}
