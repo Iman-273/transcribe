@@ -15,11 +15,9 @@ export const Header: React.FC<HeaderProps> = ({ breadcrumb, showBack }) => {
   return (
     <header className="flex items-center justify-between h-16 bg-white border-b border-gray-100 px-6 sticky top-0 z-40">
       {/* ✅ Left Section: Search + Breadcrumb / Back */}
-<div className="flex items-center gap-4 flex-1 ml-8 sm:ml-0">
-
-
-        {/* Search bar moved here */}
-        <div className="relative w-[250px]">
+      <div className="flex items-center gap-4 flex-1 ml-8 sm:ml-0">
+        {/* Search bar */}
+        <div className="relative w-[250px] lg:w-[250px] md:w-[200px] sm:w-[160px] xs:w-[130px]">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <Input
             type="search"
@@ -33,14 +31,14 @@ export const Header: React.FC<HeaderProps> = ({ breadcrumb, showBack }) => {
             variant="ghost"
             size="icon"
             onClick={() => navigate(-1)}
-            className="text-gray-600 hover:text-gray-900"
+            className="text-gray-600 hover:text-gray-900 hidden sm:flex"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
         )}
 
         {breadcrumb && (
-          <h1 className="text-[17px] font-semibold text-gray-900">
+          <h1 className="text-[17px] font-semibold text-gray-900 truncate max-w-[140px] sm:max-w-none">
             {breadcrumb}
           </h1>
         )}
