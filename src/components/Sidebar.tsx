@@ -16,7 +16,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-export const Sidebar = ({ isModalOpen = false }) => {
+export const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [role, setRole] = useState("client");
@@ -27,6 +27,7 @@ export const Sidebar = ({ isModalOpen = false }) => {
     if (storedRole) setRole(storedRole);
   }, []);
 
+  // ✅ Navigation Menus
   const clientNavigation = [
     { name: "Dashboard", href: "/client/dashboard", icon: LayoutDashboard },
     { name: "Audio Files", href: "/client/audio-files", icon: FileAudio },
@@ -56,16 +57,14 @@ export const Sidebar = ({ isModalOpen = false }) => {
   return (
     <>
       {/* ✅ Mobile Toggle Button */}
-      {!isModalOpen && (
-        <div className="md:hidden fixed top-3 left-3 z-[10000]">
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2.5 rounded-md bg-white text-gray-700 shadow-md focus:outline-none"
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
-      )}
+      <div className="md:hidden fixed top-3 left-3 z-[10000]">
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="p-2.5 rounded-md bg-white text-gray-700 shadow-md focus:outline-none"
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </div>
 
       {/* ✅ Sidebar */}
       <aside
@@ -73,7 +72,6 @@ export const Sidebar = ({ isModalOpen = false }) => {
           ${collapsed ? "w-[75px]" : "w-[240px]"}
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
           z-[9999] h-screen
-          ${isModalOpen ? "opacity-0 pointer-events-none" : "opacity-100"}
         `}
       >
         {/* Header Section */}
@@ -90,6 +88,7 @@ export const Sidebar = ({ isModalOpen = false }) => {
             }}
           />
 
+          {/* Collapse Button (Desktop Only) */}
           <Button
             variant="ghost"
             size="icon"
@@ -104,13 +103,14 @@ export const Sidebar = ({ isModalOpen = false }) => {
           </Button>
         </div>
 
+        {/* Navigation Links */}
         <nav className="flex-1 mt-3 px-2 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200">
           {navigation.map((item) => (
             <NavLink
               key={item.name}
               to={item.href}
               end={item.href === "/"}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => setMobileOpen(false)} // ✅ Close after click
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-md px-3 py-[9px] text-[14px] font-medium transition-all ${
                   isActive
@@ -125,7 +125,9 @@ export const Sidebar = ({ isModalOpen = false }) => {
           ))}
         </nav>
 
+        {/* ✅ Bottom User Section */}
         <div className="mt-auto bg-white border-t border-gray-100 py-3">
+          {/* Settings Button */}
           <div className="px-3 mb-2">
             <Button
               variant="ghost"
@@ -142,6 +144,7 @@ export const Sidebar = ({ isModalOpen = false }) => {
             </Button>
           </div>
 
+          {/* User Info */}
           <div
             className={`px-3 flex items-center gap-3 transition-all duration-200 ${
               collapsed ? "justify-center" : "hover:bg-gray-50"
@@ -169,6 +172,7 @@ export const Sidebar = ({ isModalOpen = false }) => {
         </div>
       </aside>
 
+      {/* ✅ Overlay for Mobile */}
       {mobileOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-[9998] md:hidden transition-opacity"

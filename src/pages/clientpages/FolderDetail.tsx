@@ -50,19 +50,22 @@ export default function FolderDetail() {
   }, [isRecordOpen]);
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-[#FAFBFC]">
-      {/* Blur background when modal is open */}
-      <div className={`transition-all duration-300 ${isRecordOpen ? "blur-sm pointer-events-none" : ""}`}>
+    <div className="relative flex min-h-screen flex-col bg-[#FAFBFC] overflow-hidden">
+      {/* ✅ Blur background when modal is open */}
+      <div
+        className={`transition-all duration-300 ${
+          isRecordOpen ? "blur-sm pointer-events-none select-none" : ""
+        }`}
+      >
         <Header />
 
-        <main className="flex-1 space-y-6 p-4 sm:p-6 md:p-8">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 space-y-6">
           {/* Top Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-            <h1 className="text-[20px] sm:text-[22px] font-semibold text-gray-900">
-              All Folders
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+              Folder Details
             </h1>
 
-            {/* Button Group */}
             <div className="flex flex-wrap justify-start sm:justify-end gap-2">
               <Button
                 variant="outline"
@@ -98,12 +101,12 @@ export default function FolderDetail() {
             </div>
           </div>
 
-          {/* Audio Files List */}
-          <div className="space-y-3">
+          {/* Audio Files */}
+          <div className="grid grid-cols-1 gap-4 md:gap-5">
             {audioFiles.map((file) => (
               <div
                 key={file.id}
-                className="flex flex-col md:flex-row md:items-center md:justify-between rounded-xl border border-gray-100 bg-white p-4 sm:px-5 sm:py-4 hover:shadow-sm transition-all"
+                className="flex flex-col md:flex-row md:items-center md:justify-between border border-gray-100 bg-white rounded-xl p-4 sm:p-5 hover:shadow-sm transition-all"
               >
                 {/* File Info */}
                 <div className="flex items-center gap-4 mb-3 md:mb-0">
@@ -117,14 +120,16 @@ export default function FolderDetail() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 w-full md:w-auto">
                   {file.remaining && (
                     <Badge className="bg-[#FFE5E5] text-[#E53935] font-medium px-3 py-1 rounded-md text-xs sm:text-sm">
                       {file.remaining}
                     </Badge>
                   )}
                   <Badge
-                    className={`${getStatusVariant(file.status)} font-medium px-3 py-1 rounded-md text-xs sm:text-sm`}
+                    className={`${getStatusVariant(
+                      file.status
+                    )} font-medium px-3 py-1 rounded-md text-xs sm:text-sm`}
                   >
                     {file.status}
                   </Badge>
@@ -164,10 +169,10 @@ export default function FolderDetail() {
         </main>
       </div>
 
-      {/* Record Modal */}
+      {/* ✅ Record Modal */}
       {isRecordOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm px-3">
-          <div className="bg-white w-full max-w-[500px] rounded-xl shadow-lg relative animate-fadeIn p-6 sm:p-8">
+          <div className="bg-white w-[90%] max-w-[500px] md:max-w-[600px] lg:max-w-[650px] rounded-2xl shadow-lg relative p-6 sm:p-8 animate-fadeIn">
             <button
               onClick={() => setIsRecordOpen(false)}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -197,7 +202,7 @@ export default function FolderDetail() {
               </div>
 
               {/* Transcript Preview */}
-              <div className="w-full rounded-lg border border-gray-200 bg-white px-4 py-6 sm:py-8 text-gray-700 text-base sm:text-lg leading-relaxed shadow-sm">
+              <div className="w-full rounded-lg border border-gray-200 bg-[#FAFAFA] px-4 py-6 sm:py-8 text-gray-700 text-base sm:text-lg leading-relaxed shadow-sm">
                 Hi, my name is <span className="font-semibold">Jack Mor</span>
               </div>
 
@@ -209,16 +214,14 @@ export default function FolderDetail() {
                     className="w-[3px] rounded-full bg-[#FF9F29]"
                     style={{
                       height: `${Math.random() * 60 + 10}%`,
-                      animation: `wave ${
-                        Math.random() * 0.6 + 0.4
-                      }s ease-in-out infinite`,
+                      animation: `wave ${Math.random() * 0.6 + 0.4}s ease-in-out infinite`,
                     }}
                   />
                 ))}
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                 <Button
                   size="lg"
                   variant="outline"
@@ -242,6 +245,16 @@ export default function FolderDetail() {
           </div>
         </div>
       )}
+
+      {/* ✅ Small animation */}
+      <style>
+        {`
+          @keyframes wave {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1); }
+          }
+        `}
+      </style>
     </div>
   );
 }

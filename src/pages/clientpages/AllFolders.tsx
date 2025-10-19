@@ -29,7 +29,7 @@ export default function AllFolders() {
     setIsCreateOpen(false);
   };
 
-  // ✅ Blur background and prevent scroll when modal is open
+  // ✅ Prevent scroll when modal open
   useEffect(() => {
     if (isCreateOpen) {
       document.body.style.overflow = "hidden";
@@ -42,16 +42,19 @@ export default function AllFolders() {
   }, [isCreateOpen]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#FAFBFC] relative">
+    <div className="flex min-h-screen flex-col bg-[#FAFBFC] relative overflow-hidden">
       <Header />
 
-      {/* ✅ Apply background blur when modal open */}
+      {/* ✅ Page Content */}
       <div className={`${isCreateOpen ? "blur-sm pointer-events-none select-none" : ""}`}>
-        <main className="flex-1 p-6 space-y-6">
-          {/* Top Bar */}
-          <div className="flex items-center justify-between">
-            <h1 className="text-[20px] font-semibold text-gray-900">All Folders</h1>
-            <div className="flex gap-2">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 space-y-6 max-w-[1300px] mx-auto w-full">
+          {/* 🔹 Top Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h1 className="text-[18px] sm:text-[20px] font-semibold text-gray-900 text-center sm:text-left">
+              All Folders
+            </h1>
+
+            <div className="flex flex-wrap justify-center sm:justify-end gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -79,33 +82,43 @@ export default function AllFolders() {
             </div>
           </div>
 
-          {/* Folder Container */}
-          <Card className="bg-white border border-gray-100 rounded-xl shadow-none">
-            <CardContent className="p-5">
+          {/* 🔹 Folder Container */}
+          <Card className="bg-white border border-gray-100 rounded-xl shadow-sm">
+            <CardContent className="p-4 sm:p-6">
               {folders.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-28 text-center">
-                  <Folder className="h-16 w-16 text-gray-300 mb-4" />
-                  <p className="text-gray-500 text-[15px] font-medium">
+                <div className="flex flex-col items-center justify-center py-20 sm:py-28 text-center">
+                  <Folder className="h-14 w-14 sm:h-16 sm:w-16 text-gray-300 mb-4" />
+                  <p className="text-gray-500 text-[14px] sm:text-[15px] font-medium">
                     No Folders to show!
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div className="
+                  grid 
+                  grid-cols-2 
+                  sm:grid-cols-3 
+                  md:grid-cols-4 
+                  lg:grid-cols-5 
+                  gap-3 sm:gap-4 md:gap-5
+                ">
                   {folders.map((folder) => (
                     <div
                       key={folder.id}
-                    onClick={() =>
-  navigate(`/client/audio-files/folder/${folder.id}`, { state: folder })
-}
-
-                      className="cursor-pointer border border-gray-200 rounded-lg p-4 flex items-center gap-3 hover:shadow-md transition-all"
+                      onClick={() =>
+                        navigate(`/client/audio-files/folder/${folder.id}`, { state: folder })
+                      }
+                      className="
+                        cursor-pointer border border-gray-200 rounded-lg p-3 sm:p-4 
+                        flex items-center gap-3 
+                        hover:shadow-md transition-all bg-white
+                      "
                     >
-                      <Folder className="h-8 w-8 text-yellow-500" />
+                      <Folder className="h-7 w-7 sm:h-8 sm:w-8 text-yellow-500" />
                       <div>
-                        <p className="font-semibold text-gray-800 text-[15px]">
+                        <p className="font-semibold text-gray-800 text-[13px] sm:text-[15px] truncate">
                           {folder.name}
                         </p>
-                        <p className="text-[13px] text-gray-500">{folder.date}</p>
+                        <p className="text-[12px] sm:text-[13px] text-gray-500">{folder.date}</p>
                       </div>
                     </div>
                   ))}
@@ -116,12 +129,20 @@ export default function AllFolders() {
         </main>
       </div>
 
-      {/* ✅ Custom Modal with blur background */}
+      {/* ✅ Modal */}
       {isCreateOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm px-3">
-          <div className="bg-white w-full max-w-[400px] rounded-xl shadow-lg relative animate-fadeIn">
-            <div className="flex items-center justify-between border-b px-5 py-3">
-              <h2 className="text-sm font-semibold text-gray-800">Create New Folder</h2>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm px-3 sm:px-4">
+          <div
+            className="
+              bg-white w-full
+              max-w-[90%] sm:max-w-[400px] md:max-w-[450px]
+              rounded-xl shadow-lg relative animate-fadeIn
+            "
+          >
+            <div className="flex items-center justify-between border-b px-4 sm:px-5 py-3">
+              <h2 className="text-sm sm:text-base font-semibold text-gray-800">
+                Create New Folder
+              </h2>
               <button
                 onClick={() => setIsCreateOpen(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -130,7 +151,7 @@ export default function AllFolders() {
               </button>
             </div>
 
-            <div className="px-5 py-5 space-y-3">
+            <div className="px-4 sm:px-5 py-5 space-y-3">
               <Label htmlFor="folder-name" className="text-xs font-medium text-gray-700">
                 Folder Name
               </Label>
@@ -143,17 +164,17 @@ export default function AllFolders() {
               />
             </div>
 
-            <div className="flex justify-end gap-2 border-t px-5 py-3 bg-gray-50 rounded-b-xl">
+            <div className="flex justify-end gap-2 border-t px-4 sm:px-5 py-3 bg-gray-50 rounded-b-xl">
               <Button
                 variant="outline"
                 onClick={() => setIsCreateOpen(false)}
-                className="text-xs text-gray-600"
+                className="text-xs sm:text-sm text-gray-600"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleCreateFolder}
-                className="text-xs bg-[#007BFF] hover:bg-[#0066D1] text-white px-4"
+                className="text-xs sm:text-sm bg-[#007BFF] hover:bg-[#0066D1] text-white px-4"
               >
                 Create
               </Button>
