@@ -56,17 +56,17 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col md:flex-row">
+    <div className="h-screen w-screen overflow-hidden flex flex-col md:flex-row bg-gray-50 text-gray-800">
       {/* ✅ Sidebar */}
       <Sidebar />
 
-      {/* ✅ Main Section */}
-      <div className="flex-1 flex flex-col w-full">
+      {/* ✅ Main Content */}
+      <div className="flex flex-col flex-1 w-full h-full">
         <Header />
 
-        {/* ✅ Scrollable Content */}
-        <div className="p-4 sm:p-6 lg:p-8 w-full max-w-[1400px] mx-auto">
-          {/* ✅ Page Top Section */}
+        {/* ✅ Page Wrapper (Scrollable only inside this area) */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 w-full max-w-[1400px] mx-auto scrollbar-hide">
+          {/* ✅ Top Section */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
             <div>
               <p className="text-xs sm:text-sm text-gray-500">
@@ -153,60 +153,62 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {assignments.map((a, i) => (
-              <div
-                key={i}
-                className="flex flex-col sm:flex-row sm:items-center justify-between border-b last:border-0 p-4 hover:bg-gray-50 transition"
-              >
-                {/* Left Section */}
-                <div className="flex items-center space-x-3 w-full sm:w-auto">
-                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-lg">
-                    🎵
+            <div className="divide-y">
+              {assignments.map((a, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-gray-50 transition"
+                >
+                  {/* Left */}
+                  <div className="flex items-center space-x-3 w-full sm:w-auto">
+                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-lg">
+                      🎵
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm sm:text-base truncate">
+                        {a.title}
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-500 truncate">
+                        {a.size} • {a.duration} •{" "}
+                        <span className="font-medium text-gray-700">
+                          {a.assignedTo}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="font-semibold text-sm sm:text-base truncate">
-                      {a.title}
-                    </p>
-                    <p className="text-xs sm:text-sm text-gray-500 truncate">
-                      {a.size} • {a.duration} •{" "}
-                      <span className="font-medium text-gray-700">
-                        {a.assignedTo}
-                      </span>
-                    </p>
-                  </div>
-                </div>
 
-                {/* Right Section */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-3 sm:mt-0 w-full sm:w-auto">
-                  <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 flex-wrap">
-                    {a.status === "Pending" ? (
-                      <span className="text-orange-500 font-medium">
-                        Pending
-                      </span>
-                    ) : (
-                      <span className="text-green-600 font-medium">
-                        Completed
+                  {/* Right */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-3 sm:mt-0 w-full sm:w-auto">
+                    <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 flex-wrap">
+                      {a.status === "Pending" ? (
+                        <span className="text-orange-500 font-medium">
+                          Pending
+                        </span>
+                      ) : (
+                        <span className="text-green-600 font-medium">
+                          Completed
+                        </span>
+                      )}
+                      <Calendar size={14} className="hidden xs:block" />
+                      <span>{a.date}</span>
+                    </div>
+
+                    <div className="flex items-center space-x-3 mt-2 sm:mt-0">
+                      <button className="flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-800">
+                        <Download size={14} className="mr-1" /> Download
+                      </button>
+                      <MoreVertical size={18} className="text-gray-400" />
+                    </div>
+
+                    {a.remaining && (
+                      <span className="mt-2 sm:mt-0 text-[10px] sm:text-xs text-white bg-red-500 px-2 py-1 rounded-full self-start sm:self-center whitespace-nowrap">
+                        {a.remaining}
                       </span>
                     )}
-                    <Calendar size={14} className="hidden xs:block" />
-                    <span>{a.date}</span>
                   </div>
-
-                  <div className="flex items-center space-x-3 mt-2 sm:mt-0">
-                    <button className="flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-800">
-                      <Download size={14} className="mr-1" /> Download
-                    </button>
-                    <MoreVertical size={18} className="text-gray-400" />
-                  </div>
-
-                  {a.remaining && (
-                    <span className="mt-2 sm:mt-0 text-[10px] sm:text-xs text-white bg-red-500 px-2 py-1 rounded-full self-start sm:self-center whitespace-nowrap">
-                      {a.remaining}
-                    </span>
-                  )}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
