@@ -45,7 +45,9 @@ const App = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center h-screen">Loading...</div>
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
     );
 
   return (
@@ -55,71 +57,51 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* PUBLIC ROUTE — No Sidebar */}
+            {/* ===== LANDING PAGE ===== */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/landingpage" element={<LandingPage />} />
 
-            {/* ROLE SELECTION */}
+            {/* ===== ROLE SELECTION ===== */}
             {!role && (
-              <Route path="/*" element={<RoleSelection setRole={setRole} />} />
+              <Route path="/roleselection" element={<RoleSelection setRole={setRole} />} />
             )}
 
-            {/* ADMIN ROUTES */}
+            {/* ===== ADMIN ROUTES ===== */}
             {role === "admin" && (
               <>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route
-                  path="/admin/reviewermanagement"
-                  element={<ReviewerManagement />}
-                />
-                <Route
-                  path="/admin/assignedaudios"
-                  element={<AssignedAudios />}
-                />
+                <Route path="/admin/reviewermanagement" element={<ReviewerManagement />} />
+                <Route path="/admin/assignedaudios" element={<AssignedAudios />} />
                 <Route path="/admin/payments" element={<Payments />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
+                <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
               </>
             )}
 
-            {/* CLIENT ROUTES (with sidebar layout) */}
+            {/* ===== CLIENT ROUTES ===== */}
             {role === "client" && (
               <Route element={<Layout />}>
                 <Route path="/client/dashboard" element={<Dashboard />} />
                 <Route path="/client/settings" element={<Settings />} />
                 <Route path="/client/audio-files" element={<AllFolders />} />
-                <Route
-                  path="/client/audio-files/folder/:id"
-                  element={<FolderDetail />}
-                />
-                <Route
-                  path="/client/audio-files/transcript/:id"
-                  element={<TranscriptView />}
-                />
+                <Route path="/client/audio-files/folder/:id" element={<FolderDetail />} />
+                <Route path="/client/audio-files/transcript/:id" element={<TranscriptView />} />
                 <Route path="/client/templates" element={<Templates />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="/client/dashboard" replace />}
-                />
+                <Route path="*" element={<Navigate to="/client/dashboard" replace />} />
               </Route>
             )}
 
-            {/* REVIEWER ROUTES */}
+            {/* ===== REVIEWER ROUTES ===== */}
             {role === "reviewer" && (
               <>
-                <Route
-                  path="/reviewer/dashboard"
-                  element={<ReviewerDashboard />}
-                />
+                <Route path="/reviewer/dashboard" element={<ReviewerDashboard />} />
                 <Route path="/reviewer/myaudios" element={<MyAudios />} />
                 <Route path="/reviewer/feedbacks" element={<AllFeedbacks />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="/reviewer/dashboard" replace />}
-                />
+                <Route path="*" element={<Navigate to="/reviewer/dashboard" replace />} />
               </>
             )}
+
+            {/* ===== DEFAULT REDIRECT ===== */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
