@@ -47,39 +47,39 @@ export default function Settings() {
       <Header />
 
       <main className="flex-1 px-4 sm:px-6 md:px-10 py-6">
-        {/* Page Header */}
         <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
           Settings
         </h1>
 
         {/* Tabs */}
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="border-b border-gray-200 bg-transparent w-full flex flex-wrap gap-4 sm:gap-6 px-1 mb-5">
+          {/* Tabs List — scrollable on mobile */}
+          <TabsList className="border-b border-gray-200 bg-transparent w-full overflow-x-auto flex whitespace-nowrap scrollbar-hide gap-4 sm:gap-6 px-1 mb-5">
             <TabsTrigger
               value="profile"
-              className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 border-blue-600 text-sm sm:text-base font-medium text-gray-600 pb-2"
+              className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 border-blue-600 text-sm sm:text-base font-medium text-gray-600 pb-2 px-1 sm:px-3"
             >
               Personal Profile
             </TabsTrigger>
             <TabsTrigger
               value="billing"
-              className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 border-blue-600 text-sm sm:text-base font-medium text-gray-600 pb-2"
+              className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 border-blue-600 text-sm sm:text-base font-medium text-gray-600 pb-2 px-1 sm:px-3"
             >
               Billings & Plans
             </TabsTrigger>
             <TabsTrigger
               value="notifications"
-              className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 border-blue-600 text-sm sm:text-base font-medium text-gray-600 pb-2"
+              className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 border-blue-600 text-sm sm:text-base font-medium text-gray-600 pb-2 px-1 sm:px-3"
             >
               Notification Settings
             </TabsTrigger>
           </TabsList>
 
-          {/* Personal Profile Tab */}
+          {/* PERSONAL PROFILE */}
           <TabsContent value="profile">
             <Card className="rounded-xl border border-gray-200 bg-white shadow-sm">
               <CardContent className="p-4 sm:p-6">
-                {/* Profile Upload Section */}
+                {/* Profile Upload */}
                 <div className="flex flex-col items-center justify-center border border-dashed border-gray-300 rounded-xl py-8 sm:py-10 mb-8 bg-white">
                   <div className="w-20 h-20 rounded-full border border-gray-300 flex items-center justify-center">
                     <User className="h-10 w-10 text-gray-400" />
@@ -95,52 +95,44 @@ export default function Settings() {
                   </p>
                 </div>
 
-                {/* Profile Form Fields */}
+                {/* Profile Form */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                      Full Name
-                    </Label>
+                    <Label htmlFor="name">Full Name</Label>
                     <Input
                       id="name"
                       defaultValue="Taha Janjua"
-                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200 focus:ring-blue-500 focus:border-blue-500"
+                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                      Email
-                    </Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
                       type="email"
                       defaultValue="tahajanjua2334@gmail.com"
-                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200 focus:ring-blue-500 focus:border-blue-500"
+                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
-                      Phone
-                    </Label>
+                    <Label htmlFor="phone">Phone</Label>
                     <Input
                       id="phone"
                       type="text"
                       defaultValue="+12 43435 5454"
-                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200 focus:ring-blue-500 focus:border-blue-500"
+                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200"
                     />
                   </div>
 
                   <div className="relative">
-                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                      Password
-                    </Label>
+                    <Label htmlFor="password">Password</Label>
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       defaultValue="password"
-                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200 pr-10 focus:ring-blue-500 focus:border-blue-500"
+                      className="h-11 mt-1 text-sm bg-[#FAFBFC] border-gray-200 pr-10"
                     />
                     <button
                       type="button"
@@ -156,7 +148,6 @@ export default function Settings() {
                   </div>
                 </div>
 
-                {/* Save Changes Button */}
                 <div className="flex justify-end mt-6">
                   <Button className="bg-[#007BFF] hover:bg-[#0066D1] text-white px-6 text-sm font-medium rounded-md h-10">
                     Save Changes
@@ -166,15 +157,17 @@ export default function Settings() {
             </Card>
           </TabsContent>
 
-          {/* Billings & Plans Tab */}
+          {/* BILLING */}
           <TabsContent value="billing">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left: Pro Plan */}
+              {/* Pro Plan */}
               <Card className="rounded-xl border border-gray-200 bg-white shadow-sm">
                 <CardContent className="p-6 flex flex-col justify-between h-full">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
-                      <h2 className="text-lg font-semibold text-gray-800">Pro Plan</h2>
+                      <h2 className="text-lg font-semibold text-gray-800">
+                        Pro Plan
+                      </h2>
                       <p className="text-sm text-gray-500 mt-0.5">
                         Our most popular plan for small teams.
                       </p>
@@ -202,9 +195,9 @@ export default function Settings() {
                       "Unlimited translation",
                       "Max file size 5GB",
                       "Priority Support",
-                      "2 hand-crafted custom content templates",
-                    ].map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
+                      "2 custom templates",
+                    ].map((feature, i) => (
+                      <li key={i} className="flex items-center gap-2">
                         <Check className="h-4 w-4 text-blue-600" />
                         {feature}
                       </li>
@@ -222,10 +215,12 @@ export default function Settings() {
                 </CardContent>
               </Card>
 
-              {/* Right: Payment Method */}
+              {/* Payment Method */}
               <Card className="rounded-xl border border-gray-200 bg-white shadow-sm">
                 <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold text-gray-800">Payment method</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    Payment method
+                  </h2>
                   <p className="text-sm text-gray-500 mb-5">
                     Change how you pay for your plan.
                   </p>
@@ -238,7 +233,9 @@ export default function Settings() {
                           Visa ending in 1234
                         </p>
                         <p className="text-xs text-gray-500">Expiry 06/2025</p>
-                        <p className="text-xs text-gray-500">billing@untitledui.com</p>
+                        <p className="text-xs text-gray-500">
+                          billing@untitledui.com
+                        </p>
                       </div>
                     </div>
                     <Button
@@ -260,7 +257,7 @@ export default function Settings() {
             </div>
           </TabsContent>
 
-          {/* Notification Settings Tab */}
+          {/* NOTIFICATIONS */}
           <TabsContent value="notifications">
             <Card className="rounded-xl border border-gray-200 bg-white shadow-sm">
               <CardContent className="p-0 divide-y divide-gray-200">
@@ -270,22 +267,25 @@ export default function Settings() {
                     className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 sm:px-6 py-5 gap-4"
                   >
                     <div className="space-y-1">
-                      <h3 className="text-sm font-medium text-gray-900">{item.title}</h3>
-                      <p className="text-sm text-gray-500">{item.description}</p>
+                      <h3 className="text-sm font-medium text-gray-900">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {item.description}
+                      </p>
                     </div>
-                    <div className="flex flex-wrap gap-4 sm:gap-6 mt-2 md:mt-0">
-                      <div className="flex items-center gap-2">
-                        <Switch defaultChecked={item.settings.push} />
-                        <span className="text-sm text-gray-600">Push</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Switch defaultChecked={item.settings.email} />
-                        <span className="text-sm text-gray-600">Email</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Switch defaultChecked={item.settings.sms} />
-                        <span className="text-sm text-gray-600">SMS</span>
-                      </div>
+                    <div className="flex flex-wrap gap-4 sm:gap-6">
+                      {["push", "email", "sms"].map((type) => (
+                        <div
+                          key={type}
+                          className="flex items-center gap-2 min-w-[80px]"
+                        >
+                          <Switch defaultChecked={item.settings[type]} />
+                          <span className="text-sm text-gray-600 capitalize">
+                            {type}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ))}
